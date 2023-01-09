@@ -5,12 +5,13 @@ import com.apitareas.usuarios.model.Usuario;
 import com.apitareas.usuarios.port.UsuarioPort;
 import com.apitareas.usuarios.request.UsuarioRequest;
 import com.apitareas.usuarios.response.UsuarioResponse;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UsuarioAdapter implements UsuarioPort {
 
     private final UsuarioRepository repository;
