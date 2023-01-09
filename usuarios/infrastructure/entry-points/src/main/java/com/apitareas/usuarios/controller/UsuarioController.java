@@ -1,11 +1,14 @@
 package com.apitareas.usuarios.controller;
 
 import com.apitareas.usuarios.request.UsuarioRequest;
+import com.apitareas.usuarios.response.UsuarioResponse;
 import com.apitareas.usuarios.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/usuarios")
@@ -27,7 +30,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/lista")
-    public ResponseEntity listaUsuarios() {
+    public ResponseEntity<List<UsuarioResponse>> listaUsuarios() {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(service.listaUsuarios());
@@ -38,14 +41,14 @@ public class UsuarioController {
     }
 
     @GetMapping("/buscar-usuario/{id}")
-    public ResponseEntity buscarUsuario(@PathVariable Integer id) {
+    public ResponseEntity<UsuarioResponse> buscarUsuario(@PathVariable("id") Integer id) {
         try {
             if(service.usuarioExiste(id)) {
                 return ResponseEntity.status(HttpStatus.OK)
                         .body(service.buscarUsuario(id));
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("El usuario no existe.");
+                        .body(null);
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -54,7 +57,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuario-existe/{id}")
-    public ResponseEntity usuarioExiste(@PathVariable Integer id) {
+    public ResponseEntity<Boolean> usuarioExiste(@PathVariable("id") Integer id) {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(service.usuarioExiste(id));
