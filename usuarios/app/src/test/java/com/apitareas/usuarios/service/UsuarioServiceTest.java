@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UsuarioServiceTest {
@@ -26,6 +26,7 @@ class UsuarioServiceTest {
     @InjectMocks
     private UsuarioService service;
 
+    UsuarioRequest request;
     UsuarioResponse usuario;
     List<UsuarioResponse> listaUsuarios;
 
@@ -43,10 +44,17 @@ class UsuarioServiceTest {
                 .cedula("12345")
                 .fechaCreacion(LocalDate.now())
                 .build());
+        request = UsuarioRequest.builder()
+                .nombre("Andres")
+                .cedula("12345")
+                .build();
     }
 
     @Test
     void guardarUsuario() {
+        doNothing().when(port).guardarUsuario(any(UsuarioRequest.class));
+        service.guardarUsuario(request);
+        verify(port, times(1)).guardarUsuario(request);
     }
 
     @Test
